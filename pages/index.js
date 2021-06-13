@@ -1,14 +1,20 @@
 
 import Head from 'next/head'
 import Layout from '@components/Layout'
-export default function Home() {
+import { API_URL } from '@config/index'
+export default function Home({events}) {
   return (
     <Layout>
-      <Head>
-        <title>DJ Events</title>
-        <meta name="description" content="Welcome to Dj Events"/> 
-      </Head>
-      <h1>Home</h1>
+      <h1>Upcoming events</h1>
     </Layout>
   )
+}
+
+export async function getStaticProps({req, ctx}){
+  const res = await fetch(`${API_URL}/api/events`)
+  const events = await res.json();
+  return {
+    props:{events},
+    revalidate :5
+  }
 }
