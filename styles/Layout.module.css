@@ -1,0 +1,6 @@
+.container {
+  /*  auto to move it to the middle*/
+  margin: 60px auto;
+  max-width: 960px;
+  padding: 0 30px
+}
