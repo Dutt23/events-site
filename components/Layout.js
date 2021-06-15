@@ -8,7 +8,7 @@ import { useRouter } from 'next/router'
 export default function Layout({ title, keywords, description, children }) {
   const router = useRouter()
   return (
-    <div>
+    <div className={styles.container}>
       <Head>
         <title>{title}</title>
         <meta name="description" content={description} />
