@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import Layout from '@components/Layout'
 import { API_URL } from '@config/index'
-import styles from 'styles/Event.module.css'
+import styles from '@styles/Event.module.css'
 export default function EventPage({ evt }) {
   const deleteEvent = (e) =>{
     console.log('Delete')
