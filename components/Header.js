@@ -7,6 +7,7 @@ import { FaSignInAlt, FaSignOutAlt } from 'react-icons/fa'
 import { toast } from 'react-toastify'
 export default function Header() {
   const { user, logout } = useContext(AuthContext)
+
   return (
     <header className={styles.header}>
       <div className={styles.logo}>
