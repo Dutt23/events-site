@@ -10,11 +10,12 @@ export default function RegisterPage() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [userName, setUserName] = useState('');
+  const [username, setUsername] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
 
   const { register, error } = useContext(AuthContext)
 
+  useEffect(()  => error && toast.error(error))
   const handleSubmit = (e) => {
     e.preventDefault()
     
@@ -22,8 +23,9 @@ export default function RegisterPage() {
       toast.error("Passwords do not match")
       return
     }
-    register({ userName, email, password })
+    register({ username, email, password })
   }
+
   return (
     <Layout title="User Registration">
       <div className={styles.auth}>
@@ -37,8 +39,8 @@ export default function RegisterPage() {
             <input
               type="text"
               id="userName"
-              value={userName}
-              onChange={(e) => setUserName(e.target.value)}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
             />
           </div>
           <div>
@@ -68,7 +70,7 @@ export default function RegisterPage() {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <input type="submit" value="Login" className="btn" />
+          <input type="submit" value="Register" className="btn" />
           <p>
             Already have an account ? <Link href="/account/login">Login</Link>
           </p>
