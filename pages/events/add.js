@@ -1,3 +1,4 @@
+import { parseCookies } from '@helpers/index'
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
@@ -7,7 +8,7 @@ import Layout from '@components/Layout'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-export default function AddEventPage() {
+export default function AddEventPage({ token }) {
 
   const [values, setValues] = useState({
     name: '',
@@ -27,23 +28,29 @@ export default function AddEventPage() {
     // Validation
     const hasEmptyFields = Object.values(values).some((element) => element === '');
 
-    if(hasEmptyFields) {
+    if (hasEmptyFields) {
       toast.error("Please enter all fields");
       return;
     }
-    
 
-    const res = await fetch(`${API_URL}/events`,{
+
+    const res = await fetch(`${API_URL}/events`, {
       method: 'POST',
-      headers :{
-        'Content-Type':'application/json'
+      headers: {
+        'Content-Type': 'application/json',
+        "Authorization" : `Bearer ${token}`
       },
       body: JSON.stringify(values)
     })
 
-    if(!res.ok){
+    if (!res.ok) {
       console.log(res)
-      toast.error("Something went wrong")
+      if (!token) {
+        toast.error("No token included")
+      }
+      else {
+        toast.error("Something went wrong")
+      }
       return;
     }
 
@@ -59,8 +66,8 @@ export default function AddEventPage() {
     <Layout title="Add new event">
       <Link href="/events">Go Back</Link>
       <h1>Add Event</h1>
-      <ToastContainer 
-      hideProgressBar={true}
+      <ToastContainer
+        hideProgressBar={true}
       />
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.grid}>
@@ -141,4 +148,14 @@ export default function AddEventPage() {
       </form>
     </Layout>
   )
+
+}
+
+export async function getServerSideProps({ req }) {
+  const { token } = parseCookies(req)
+  return {
+    props: {
+      token
+    }
+  }
 }
