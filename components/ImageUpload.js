@@ -4,7 +4,7 @@ import styles from '@styles/AddEvent.module.css'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-export default function ImageUpload({ evtId, imageUploaded }) {
+export default function ImageUpload({ evtId, imageUploaded, token }) {
 
   const [image, setImage] = useState(null)
 
@@ -21,18 +21,17 @@ export default function ImageUpload({ evtId, imageUploaded }) {
     formData.append('refId', evtId)
     formData.append('field', 'image')
 
-
-    const res = await fetch(`${API_URL}/upload`,{
+    console.log(token)
+    const res = await fetch(`${API_URL}/upload`, {
       method: 'POST',
-      body :formData
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
     })
 
     if(res.ok){
       imageUploaded()
-    }
-    else {
-      const data = res.json();
-      toast.error(data)
     }
   }
   return (
